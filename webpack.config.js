@@ -19,7 +19,8 @@ module.exports = {
     // 资源模块输出的文件
     assetModuleFilename:'images/[hash][ext]',
     // 每次构建都清理文件
-    clean:true
+    clean:true,
+    publicPath:'/'
   },
   // 热更新
   devServer:{
