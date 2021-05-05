@@ -1,17 +1,27 @@
 import _ from 'lodash'
-import './style.css'
+// import './style.css'
 // import imgobj from './aaa.jpg'
-import txt from './test.txt'
+// import txt from './test.txt'
 import printMe from './print'
+// import {cube} from './math'
+
+if(process.env.NODE_ENV !== 'production'){
+  console.log('looks like we are in development mode');
+}
 
 function component(){
-  const element = document.createElement('div')
-  const btn = document.createElement('button')
-  element.innerHTML = _.join(['Hello', 'webpack',txt], ' ')
-  element.classList.add('Hello')
+  return import('lodash').then(_ => {
+    const element = document.createElement('div')
+    const btn = document.createElement('button')
+    element.innerHTML = _.join(['Hello', 'webpack'], ' ')
+    element.classList.add('Hello')
 
-  btn.onclick = printMe
-  element.appendChild(btn)
+    btn.onclick = printMe.bind(null,'Hello')
+    element.appendChild(btn)
+
+    return element
+  })
+
   
 
   // const img = new Image()
@@ -19,7 +29,18 @@ function component(){
 
   // element.appendChild(img)
 
-  return element
 }
 
-document.body.appendChild(component())
+component().then(component => {
+  document.body.appendChild(component())
+})
+
+// if(module.hot){
+//   module.hot.accept('./print.js',function(){
+//     console.log('Accepting the updated printMe module');
+//     printMe()
+//     document.body.removeChild(element)
+//     element = component()
+//     document.body.appendChild(element)
+//   })
+// }
